@@ -1,0 +1,18 @@
+<div style="display:flex;justify-content:center;align-items:center;height:100%">
+    <mat-nav-list style="width: 490px;">
+        <!-- New List -->
+        <a mat-list-item (click)="openGroceryListModal()">
+            <span style="flex-grow:2;align-items: center;display:flex;height:48px;padding-left:10px;">New List</span>
+            <button mat-button type="button" aria-label="Clear" style="min-width: 0px;padding-right:10px">
+                <mat-icon style="color:green;">add</mat-icon>
+            </button>
+        </a>
+        <!-- Saved Lists -->
+        <a mat-list-item *ngFor="let gl of groceryList"> 
+            <span style="flex-grow:2;align-items: center;display:flex;height:48px;padding-left:10px;" (click)="openGroceryListModal(gl.GroceryListId)">{{ gl.Title }}</span>
+            <button mat-button type="button" aria-label="Clear" style="min-width: 0px;padding-right:10px" (click)="deleteGroceryList(gl.GroceryListId!)">
+                <mat-icon style="color:red;">delete</mat-icon>
+            </button>
+        </a>
+    </mat-nav-list>
+</div>

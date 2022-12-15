@@ -1,0 +1,8 @@
+# backend ignore
+.vs/backend/DesignTimeBuild/
+.vs/backend/v16/
+obj/
+[Bb]in/
+**/[Pp]ackages/*
+.DS_Store
+Thumbs.db

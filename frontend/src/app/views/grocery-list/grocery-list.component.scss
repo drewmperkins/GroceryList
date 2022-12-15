@@ -1,0 +1,13 @@
+:host ::ng-deep .mat-mdc-list-item-unscoped-content {
+    display: flex !important;
+    align-items: center !important;
+}
+
+:host ::ng-deep .mat-mdc-button>.mat-icon {
+    margin-right: unset !important;
+}
+
+:host ::ng-deep .mdc-list-item {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}

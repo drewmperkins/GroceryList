@@ -1,0 +1,32 @@
+.main-title {
+    background-color: transparent;
+    border:0px;
+    width:100%;
+    font-size: 22px;
+    font-weight: 300;
+}
+
+// HIDE TEXTBOX UNDERLINE
+:host ::ng-deep .mdc-line-ripple {
+    display: none !important;
+}
+
+// CHANGE DEFAULT COLOR OF INPUT BG
+:host ::ng-deep .mdc-text-field--filled {
+    background-color: transparent !important;
+}
+
+// HIDE SUB WRAPPER
+:host ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    height: 0px;
+}
+
+:host ::ng-deep .mat-mdc-button>.mat-icon {
+    margin-right: unset !important;
+}
+
+:host ::ng-deep .mat-mdc-form-field-infix {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    min-height: 0px !important;
+}
