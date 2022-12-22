@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:8.0.31
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: dbGroceryList
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: P@ssw0rd123
+    volumes:
+      - /tmp/dbdata:/var/lib/mysql
+    restart: always
+    
+  backend:
+    build: ./backend
+    container_name: backend
+    depends_on:
+      - mysql
+    ports:
+      - 44300:44300
+      - 8080:8080
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:44300;http://+:8080
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=P@ssw0rd123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - /tmp:/https:ro
+      
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - 4200:80
+    depends_on:
+      - backend

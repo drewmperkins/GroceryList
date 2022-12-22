@@ -6,7 +6,8 @@
 1. [Objectives](#objectives)
 2. [Overview](#overview)
 3. [Build](#build)
-4. [Notes](#notes)
+4. [Docker](#docker)
+5. [Notes](#notes)
 <br/><br/><br/>
 
 ## **Objectives**
@@ -76,15 +77,39 @@ Setup frontend:
 *Note: Open browser to http://localhost:4200/*
 <br/><br/><br/>
 
+## **Docker**
+
+Publish example using docker.
+
+    cd backend
+    // modify appsettings.json server=mysql and user=dbuser (uses the container named mysql)
+    dotnet build
+    cp appsettings.json /bin/Debug/net6.0
+    cp aspnetapp.pfx /tmp
+
+    cd frontend
+    npm install
+    ng build --configuration=development
+
+    cd <root-of-project>
+    sudo docker-compose up --build
+
+***Warning: Not for production!!** This is merely an example of running the project on docker. Cert file, ports, database info all would need to be changed.*
+
+*Note: Once started, the ef database migrations will need to be run.*
+<br/><br/><br/>
+
 ## **Notes**
 
 Below are the notes\commands initially used to get the project structured.
 
-## **Database - MySQL**
+**Database - MySQL**
+
     sudo docker pull mysql
     sudo docker run --name mysql -e MYSQL_ROOT_PASSWORD=P@ssw0rd123 -p 3306:3306 mysql:latest
 
-## **Frontend - Angular v15**
+**Frontend - Angular v15**
+
     // supports node.js versions: 14.20.x, 16.13.x and 18.10.x
     // supports TypeScript version 4.8 or later
     nvm install 16.13.2
@@ -94,19 +119,21 @@ Below are the notes\commands initially used to get the project structured.
     cd frontend
     ng add @angular/material --save
  
-## **Backend - .NET6.0**
+**Backend - .NET6.0**
 
 *Swagger URL - https://localhost:44300/swagger/index.html*
 
 *Net6 SDK - https://download.visualstudio.microsoft.com/download/pr/0a672516-37fb-40de-8bef-725975e0b137/a632cde8d629f9ba9c12196f7e7660db/dotnet-sdk-6.0.404-win-x64.exe*
 
-### Create backend project
+Create backend project
+
     dotnet dev-certs https -ep %userprofile%\.aspnet\https\aspnetapp.pfx -p P@ssw0rd123
     dotnet dev-certs https --trust
     dotnet new webapi --name backend
     cd backend
 
-### Add EFCore Tools
+Add EFCore Tools
+
     dotnet tool install --global dotnet-ef --version 6.0.7
     dotnet add package Microsoft.EntityFrameworkCore.Design --version 6.0.7
     // scaffolding bug using MySql.EntityFrameworkCore package. 
@@ -114,26 +141,15 @@ Below are the notes\commands initially used to get the project structured.
     // dotnet add package MySql.EntityFrameworkCore --version 6.0.7
     dotnet add package Pomelo.EntityFrameworkCore.MySql --version 6.0.2
 
-### Create database\tables
+Create database\tables
+
     dotnet ef migrations add InitialCreate
     dotnet ef database update
     // dotnet ef database update 0
     // dotnet ef migrations remove
 
-## **Backend - Unit Testing**
+**Backend - Unit Testing**
+
     dotnet new xunit -o backend-test
     dotnet add package Moq --version 4.18.2
     dotnet test
-
-## **Docker - Production - Beta**
-    
-    // Install nvm - https://github.com/nvm-sh/nvm#installing-and-updating
-    nvm install 16.13.2
-    nvm use 16.13.2
-    sudo npm install -g @angular/cli
-
-    cp aspnetapp.pfx /tmp
-    sudo docker-compose up --build
-
-    sudo docker build -t frontend .
-    sudo docker run --name frontend -p 4200:80 --restart=always frontend
